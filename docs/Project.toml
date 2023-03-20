@@ -1,0 +1,3 @@
+[deps]
+BayesianDiscovery = "5da4bffb-e159-4f8b-b7be-811d7939c982"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
