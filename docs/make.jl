@@ -9,7 +9,8 @@ makedocs(;
     repo="https://github.com/jsnowynorth/BayesianDiscovery.jl/blob/{commit}{path}#{line}",
     sitename="BayesianDiscovery.jl",
     format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
+        prettyurls=get(ENV, "CI", "nothing") == "true",
+        canonical="https://jsnowynorth.github.io/BayesianDiscovery.jl",
         edit_link="main",
         assets=String[],
     ),

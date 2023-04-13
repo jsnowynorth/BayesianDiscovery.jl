@@ -1,5 +1,5 @@
 ```@meta
-CurrentModule = BayesianSVD
+CurrentModule = BayesianDiscovery
 ```
 
 # API
@@ -8,5 +8,5 @@ CurrentModule = BayesianSVD
 ```
 
 ```@autodocs
-Modules = [BayesianSVD]
+Modules = [BayesianDiscovery]
 ```
