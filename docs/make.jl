@@ -30,3 +30,6 @@ deploydocs(;
     repo="github.com/jsnowynorth/BayesianDiscovery.jl.git",
     devbranch="main",
 )
+
+# using DocumenterTools
+# DocumenterTools.genkeys(user="jsnowynorth", repo="git@github.com:jsnowynorth/BayesianDiscovery.jl.git")
