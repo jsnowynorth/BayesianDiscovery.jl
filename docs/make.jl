@@ -23,3 +23,9 @@ makedocs(;
         "API" => "api.md"
     ],
 )
+
+
+deploydocs(;
+    repo="github.com/jsnowynorth/BayesianDiscovery.jl.git",
+    devbranch="main",
+)
