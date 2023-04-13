@@ -10,31 +10,6 @@ function estimate_c(inner_inds; cut_off_prob = 0.9)
 end
 
 
-"""
-    Pars Structure
-
-Initiates a structure of class Pars
-
-# Arguments
-- A: basis coefficients
-- M: PDE coefficients
-- ΣZ : measurement variance/covariance matrix
-- ΣU: process variance/covariance matrix
-- gamma: ssvs latent parameters
-- sample_inds: current subsampled indicies for SGD
-- F: current F
-- Fprime: current Fprime
-- a_R
-- A_R
-- nu_R
-- a_Q
-- A_Q
-- nu_Q
-- v0
-- v1
-- Sigma_M
-
-"""
 mutable struct Pars
 
   # parameters
@@ -75,8 +50,6 @@ end
     create_pars()
 
 Constructs the parameter and model classes.
-
-See also [`Pars`](@ref), [`Model`](@ref).
 
 # Arguments
 - Y::Array{Float64, 3}: Space x Time x Component data array

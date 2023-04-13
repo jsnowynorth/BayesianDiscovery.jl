@@ -1,29 +1,5 @@
 
-"""
-    Model Structure
 
-Initiates a structure of class Model
-
-# Arguments
-- S: Spatial Dimension
-- T
-- N
-- D
-- νS
-- νT
-- bufferSpace
-- bufferTime
-- batchSpace
-- batchTime
-- learning_rate
-- Z
-- U
-- Basis
-- States
-- Λ::Function: Library of potential functions
-- Λnames::Vector{String}: Names of components of library of potential functions
-
-"""
 mutable struct Model
 
   # model

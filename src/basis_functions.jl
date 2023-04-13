@@ -1,19 +1,4 @@
 
-
-"""
-DerivativeClass
-
-Creates the derivative class. Includes:
-
-- TimeDerivative: Derivatives w.r.t. time
-- TimeNames: Names of the time derivatives
-- SpaceDerivative: Derivatives w.r.t. space
-- SpaceNames: Names of the space derivatives
-- orderSpace: Order of spatial derivative
-- orderTime: Order of temporal derivative
-- spatialDimension: 1 if [x] 2 if [x,y]
-
-"""
 struct DerivativeClass
   TimeDerivative::Dict
   TimeNames::Vector{String}
@@ -24,34 +9,6 @@ struct DerivativeClass
   spatialDimension::Int
 end
 
-
-"""
-StateClass
-
-Creates the state class. Includes:
-
-- State: Current state
-- TimeState: Derivatives w.r.t. time
-- TimeNames: Names of the time derivatives
-- SpaceState: Derivatives w.r.t. space
-- SpaceNames: Names of the space derivatives
-- orderSpace: Order of spatial derivative
-- orderTime: Order of temporal derivative
-- spatialDimension: 1 if [x] 2 if [x,y]
-- componentDimension: number of components, [u] or [u,v] or [u,v,w] ...
-
-"""
-# struct StateClass
-#   State::Array{Float64}
-#   TimeState::Dict
-#   TimeNames::Vector{String}
-#   SpaceState::Dict
-#   SpaceNames::Vector{String}
-#   orderSpace::Int
-#   orderTime::Int
-#   spatialDimension::Int
-#   componentDimension::Int
-# end
 struct StateClass
   State::Dict
   StateNames::Vector{String}
@@ -187,48 +144,6 @@ function spatial_bspline(x, y, x_knot_locs, y_knot_locs, degree, xdir, ydir)
 end
 
 
-"""
-    derivatives_dictionary(;orderx::Int, orderTime::Int, νT::Int, νS::Int,
-                                Δx::Float64, Δt::Float64, degree::Int,
-                                x::StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}},
-                                Time::StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}})
-
-Creates a dictionary of space and time derivatives and their names. Used only for 1 spactial dimension.
-
-# Arguments
-- orderx::Int order of the x derivatives (spatial)
-- orderTime::Int order of the time derivatives
-- νT::Int number of time basis functions
-- νS::Int number of space basis functions
-- degree::Int degree of bsplines
-- x::StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}} x (spatial) values
-- Time::StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}} time values
-
-- orderSpace::Int: order of the spatial derivatives
-- orderTime::Int: order of the time derivative
-- νS::Int, νS::Array{Int}: either number of spatial basis functions for 1 dimension or [x,y] dimensions
-- νT::Int: number of time basis functions
-- SpaceStep::StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}}: in 1 dim spatial indexes or [x,y] spatial indexes
-- TimeStep::StepRangeLen{Float64, Base.TwicePrecision{Float64}, Base.TwicePrecision{Float64}}: temporal indexes
-- degree::Int = 4: degree of bspline
-
-# Examples
-```
-x = 2:0.05:7.5
-y = -2.5:0.05:2.5
-Time = 0:0.08:16
-Δt = 0.08
-
-νSx = 10
-νSy = 10
-νT = 10
-degree = 4
-orderTime = 1
-orderSpace = 3
-
-BasisDerivative = derivatives_dictionary(orderSpace, orderTime, [νSx, νSy], νT, [x, y], Time)
-```
-"""
 function derivatives_dictionary(orderSpace::Int,
   orderTime::Int,
   νS::Int,
@@ -313,28 +228,6 @@ function derivatives_dictionary(orderSpace::Int,
   return BasisDerivative
 end
 
-# bx[i, :] .* by[j, :]'
-# heatmap(reduce(hcat, reshape([reshape(bx[i, :] .* by[j, :]', :, 1) for i in 1:nx, j in 1:ny], nx * ny, 1)))
-# heatmap(reduce(hcat, reshape([reshape(by[i, :] .* bx[j, :]', :, 1) for i in 1:ny, j in 1:nx], nx * ny, 1))')
-
-"""
-construct_state(;A::Array{Float64, 2},
-                        Time_derivative::Dict, Time_names::Vector{String},
-                        Space_derivative::Dict, Space_names::Vector{String})
-
-Creates a dictionary and corresponding names of the space and time derivatives. Used only for 1 spatial dimension.
-
-# Arguments
-- A::Array{Float64, 2}
-- BasisDerivative::DerivativeClass
-- Theta: Dimension of components diagonal matrix
-
-# Examples
-```
-ProcessDerivative = construct_state(A, BasisDerivative, Theta)
-```
-
-"""
 function construct_state(A::Array{Float64,2}, BasisDerivative::DerivativeClass, Θ::Matrix{Float64})
 
   C = fold3(A, size(BasisDerivative.SpaceDerivative[BasisDerivative.SpaceNames[1]], 2), size(BasisDerivative.TimeDerivative[BasisDerivative.TimeNames[1]], 2), size(Θ, 1))
@@ -387,18 +280,6 @@ end
 
 
 
-"""
-    create_create_library(Λ, Λnames, locs, State)
-
-Create a matrix of the function Λ evaluated at each location
-
-# Arguments
-- Λ: function
-- Λnames: names of each component of Λ
-- llocs: space-time locations to evaluate the function at
-- State: StateClass current state of values
-
-"""
 function create_library(Λ::Function, Λnames::Vector{String}, locs::Vector{Int}, State::StateClass)
 
   # Uselect = [State.State[Λnames[1]][:, locs[j]] for j in 1:length(locs)]
@@ -492,12 +373,6 @@ end
 
 
 
-# Ψ = [Basis.SpaceDerivative[ΛSpaceNames[i]] for i in 1:length(ΛSpaceNames)]
-# Φ = [Basis.TimeDerivative[ΛTimeNames[i]] for i in 1:length(ΛTimeNames)]
-# reduce(vcat, Λ(A, Ψ, Φ))
-
-# create_Λ(Λ, A, Basis, ΛSpaceNames, ΛTimeNames, X)
-
 function create_Λ(Λ::Function, A, Basis, ΛSpaceNames, ΛTimeNames, X=nothing)
 
   if X === nothing
@@ -548,12 +423,6 @@ end
 
 
 
-"""
-    sample_inds()
-
-returns the space indices, time indices, and vectorized indices
-
-"""
 function sample_inds(SpaceStep::Vector,
   TimeStep::Vector,
   batchSpace::Int,
