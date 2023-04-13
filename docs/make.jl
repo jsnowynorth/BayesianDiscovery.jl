@@ -19,7 +19,8 @@ makedocs(;
         "Examples" => [
             "Burgers Equation" => "burgers.md",
             "Heat Equation" => "heat.md",
-            "Reaction Diffusion" => "reactiondiffusion.md"
+            "Reaction Diffusion" => "reactiondiffusion.md",
+            "Feature Library" => "featurelibrary.md"
         ],
         "API" => "api.md"
     ],
