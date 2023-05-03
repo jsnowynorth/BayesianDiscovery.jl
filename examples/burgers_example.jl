@@ -35,6 +35,7 @@ using Kronecker
 
 include("burgers_equation_generate.jl")
 
+
 ######################### Load Burgers Equation #########################
 
 U, x, Time = burgers()

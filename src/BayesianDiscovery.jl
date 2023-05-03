@@ -1,3 +1,19 @@
+
+########################################################################
+#### Author: Joshua North
+#### Project: BayesianDiscovery
+#### Date: 03-April-2023
+#### Description: Package for the spatio-temporal bayesian discovery paper
+########################################################################
+
+__precompile__()
+
+
+"""
+    BayesianDiscovery
+
+Here is my package.
+"""
 module BayesianDiscovery
 
 
@@ -33,3 +49,4 @@ export hpd
 
 
 end # module
+
