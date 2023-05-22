@@ -40,7 +40,7 @@ include("../src/ModelStructure.jl")
 include("../src/PDE_sampler.jl")
 include("../src/process_sampler.jl")
 
-
+ 
 export 
     DEtection,
     print_equation,
