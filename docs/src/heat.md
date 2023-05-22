@@ -4,4 +4,4 @@ CurrentModule = BayesianDiscovery
 
 # Heat Example
 
-This will be an example
+#TODO: Finish example docs

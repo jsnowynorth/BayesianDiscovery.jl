@@ -2,36 +2,13 @@
 # Ut = α Uxx - U Ux
 # α = 0.1
 
-
-# using StatsBase, LinearAlgebra, Plots, StatsPlots, CSV
-# using Kronecker
-# using Missings
-# using Distributions, Random
-# using ProgressMeter
-# using ReverseDiff: JacobianTape, JacobianConfig, jacobian, jacobian!, compile
-# using ForwardDiff
-# using Statistics
-# using JLD2
-# using RCall
-# using DataFrames, DataFramesMeta, Chain
-# using NetCDF
-# using MultivariateStats
-# using StatsModels, Combinatorics, IterTools
-# using KernelDensity
-# using Tables
-# using MAT
-# using SparseArrays
-# using CodeTracking, Revise
-# using FFTW, DifferentialEquations
-
-
 using BayesianDiscovery
 const BD = BayesianDiscovery
-# using FFTW, DifferentialEquations
 using FFTW, OrdinaryDiffEq
 using Plots
 using Random, Distributions
 using Kronecker
+using JLD2
 
 include("burgers_equation_generate.jl")
 
@@ -47,7 +24,6 @@ contourf(Time, x, U, c=:oxy)
 Random.seed!(1)
 Y = reshape(real.(U), 256, 101, 1)
 Z = Y + 0.02 * std(Y) .* rand(Normal(), 256, 101, 1)
-# Z = reshape([Z[i, j] < 0 ? abs(Z[i, j]) : Z[i, j] for i in 1:256, j in 1:101], 256, 101, 1)
 
 
 ######################### missing data #########################
@@ -65,22 +41,16 @@ end
 
 
 ######################### PDEtection #########################
-## PDEtection
-
-# estimate_c(model.inner_inds, cut_off_prob = 0.81)
 
 SpaceStep = [x]
 TimeStep = Time
 νS = 50 # number of space basis functions
 νT = 20 # number of time basis functions
-# bufferSpace = 1
-# bufferTime = 1
 batchSpace = 10
 batchTime = 10
 learning_rate = 1e-4
 beta = 0.9
-# c = 25098.0
-# c = 1.0
+
 
 ΛSpaceNames = ["Psi", "Psi_x", "Psi_xx", "Psi_xxx"]
 ΛTimeNames = ["Phi"]
@@ -126,9 +96,11 @@ end
 model, pars, posterior = DEtection(Z, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, beta, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
 model, pars, posterior = DEtection(Z_missing, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, c, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
 
+# @save "docs/src/savedRuns/BurgersRun.jld2" model pars posterior
+# @load "/docs/src/savedRuns/BurgersRun.jld2" model pars posterior
+
 
 print_equation(["∇U"], model, pars, posterior, cutoff_prob=0.5)
-
 
 post = posterior_summary(model, pars, posterior)
 post.M
@@ -338,29 +310,3 @@ post_sum.M_hpd
 post_sum.gamma
 sqrt(post_sum.ΣZ)
 post_sum.ΣU
-
-
-
-
-
-N = 256*101
-g = N
-N = 100
-s = 0.01
-r = 0.9
-
-sqrt((g/(g+1))*log(g+1)*s/(N*(1-r)))
-
-
-# N = 256*101
-g = N
-# N = 100
-s = sqrt(pars.ΣU[1,1])
-r = 0.95
-a = 0.01
-
-((g+1)/(g))*(s/(a^2*(1-r)))*(10+log(g+1))
-
--100*a^2*(1-r)*(g/(g+1))/s + log(g+1)
-
-exp(9)

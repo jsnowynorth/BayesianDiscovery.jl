@@ -41,12 +41,15 @@ include("../src/PDE_sampler.jl")
 include("../src/process_sampler.jl")
 
 
-export DEtection
-export print_equation
-export posterior_surface
-export posterior_summary
-export hpd
-
+export 
+    DEtection,
+    print_equation,
+    posterior_surface,
+    posterior_summary,
+    hpd,
+    Pars,
+    Model,
+    Posterior
 
 end # module
 

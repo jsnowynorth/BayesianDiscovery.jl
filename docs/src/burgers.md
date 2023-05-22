@@ -4,8 +4,8 @@ CurrentModule = BayesianDiscovery
 
 # Burgers Example
 
-<!-- ```@setup burgers -->
-```
+
+```@setup burgers
 using BayesianDiscovery
 const BD = BayesianDiscovery
 using Distances, Plots, Random, Distributions, LinearAlgebra
@@ -14,6 +14,9 @@ using OrdinaryDiffEq
 using Plots
 using Random, Distributions
 using Kronecker
+using JLD2
+
+@load "/Users/JSNorth/.julia/dev/BayesianDiscovery/docs/src/savedRuns/BurgersRun.jld2" model pars posterior
 
 ```
 
@@ -25,8 +28,7 @@ Start by simulating and visualizing some data from the Burgers equation which is
 where ``u(s,t)`` is the speed of the fluid at location ``s = (x)`` and time ``t`` and ``\nu`` is the viscosity of the fluid.
 
 
-<!-- ```@example burgers -->
-```
+```@example burgers
 function burgers_pde(u, p, t)
     k,nu = p
     deriv = -u .* FFTW.ifft(1im .* k .* FFTW.fft(u)) + nu*FFTW.ifft(-k .^2 .* FFTW.fft(u))
@@ -63,8 +65,7 @@ Plots.contourf(Time, x, U, c=:oxy)
 ```
 
 Next, we add reshape the solution surface ``U`` to be a ``space \times time \times process`` array (here ``256 \times 101 \times 1``) and add noise.
-<!-- ```@example -->
-```
+```@example burgers
 Random.seed!(1)
 Y = reshape(real.(U), 256, 101, 1)
 Z = Y + 0.02 * std(Y) .* rand(Normal(), 256, 101, 1)
@@ -73,8 +74,7 @@ Plots.contourf(Time, x, Z[:,:,1], c=:oxy)
 
 The MCMC sampler function, `DEtection()`, takes a lot of parameters (TO DO: break apart the function call into smaller chuncks). See `?DEtection()` for the argument requirements. Additionally, we need to define the feature library and the derivative of the feature library (see [Feature Library](@ref)).
 
-<!-- ```@example -->
-```
+```@example burgers
 SpaceStep = [x]
 TimeStep = Time
 νS = 50 # number of space basis functions
@@ -131,5 +131,15 @@ To run the model we use the `DEtection()` function which returns the `model`, `p
 <!-- ```@example -->
 ```
 model, pars, posterior = DEtection(Z, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, beta, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
-print_equation(["∇U"], model, pars, posterior, cutoff_prob=0.5)
 ```
+
+We can then print the mean estimate along with the 95% highest posterior density (HPD) intervals.
+```@example burgers
+print_equation(["uₜ"], model, pars, posterior, cutoff_prob=0.5)
+```
+
+We see the true equation
+```math
+    u_t = -u(s,t)u_{x} + 0.1 u_{xx}
+```
+is covered by the interval!

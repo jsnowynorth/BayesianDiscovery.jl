@@ -2,28 +2,6 @@
 
 # http://iridl.ldeo.columbia.edu/SOURCES/.NOAA/.NCEP-NCAR/.CDAS-1/.DAILY/.Intrinsic/.PressureLevel/
 
-# using StatsBase, LinearAlgebra, Plots, StatsPlots, CSV
-# using Kronecker
-# using Missings
-# using Distributions, Random
-# using ProgressMeter
-# using ReverseDiff: JacobianTape, JacobianConfig, jacobian, jacobian!, compile
-# using ForwardDiff
-# using Statistics
-# using JLD2
-# using RCall
-## using DataFrames, DataFramesMeta, Chain
-## using NetCDF
-# using MultivariateStats
-# using StatsModels, Combinatorics, IterTools
-# using KernelDensity
-# using Tables
-# using MAT
-# using SparseArrays
-# using CodeTracking, Revise
-## using Distances
-## using Dates
-
 
 using BayesianDiscovery
 const BD = BayesianDiscovery

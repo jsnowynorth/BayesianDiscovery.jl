@@ -4,4 +4,4 @@ CurrentModule = BayesianDiscovery
 
 # Reaction Diffusion Example
 
-This will be an example
+#TODO: Finish example docs
