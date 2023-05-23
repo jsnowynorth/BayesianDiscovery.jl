@@ -8,15 +8,14 @@ CurrentModule = BayesianDiscovery
 ```@setup burgers
 using BayesianDiscovery
 const BD = BayesianDiscovery
-using Distances, Plots, Random, Distributions, LinearAlgebra
-using FFTW
-using OrdinaryDiffEq
-using Plots
+using Distances, Plots, LinearAlgebra
 using Random, Distributions
 using Kronecker
+using FFTW
+using OrdinaryDiffEq
 using JLD2
 
-@load "/Users/JSNorth/.julia/dev/BayesianDiscovery/docs/src/savedRuns/BurgersRun.jld2" model pars posterior
+@load "https://github.com/jsnowynorth/BayesianDiscovery.jl/blob/main/docs/src/BurgersRun.jld2" model pars posterior
 
 ```
 
@@ -70,6 +69,7 @@ Random.seed!(1)
 Y = reshape(real.(U), 256, 101, 1)
 Z = Y + 0.02 * std(Y) .* rand(Normal(), 256, 101, 1)
 Plots.contourf(Time, x, Z[:,:,1], c=:oxy)
+pwd()
 ```
 
 The MCMC sampler function, `DEtection()`, takes a lot of parameters (TO DO: break apart the function call into smaller chuncks). See `?DEtection()` for the argument requirements. Additionally, we need to define the feature library and the derivative of the feature library (see [Feature Library](@ref)).
@@ -128,7 +128,7 @@ end
 
 
 To run the model we use the `DEtection()` function which returns the `model`, `pars`, and `posterior` structures which can be passed into various functions to investigate the output. For example, the `print_equation()` function will return the "discovered" PDE given a cutoff probability (`cutoff_prob`) value.
-<!-- ```@example -->
+
 ```
 model, pars, posterior = DEtection(Z, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, beta, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
 ```

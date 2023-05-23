@@ -96,8 +96,8 @@ end
 model, pars, posterior = DEtection(Z, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, beta, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
 model, pars, posterior = DEtection(Z_missing, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, c, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
 
-# @save "docs/src/savedRuns/BurgersRun.jld2" model pars posterior
-# @load "/docs/src/savedRuns/BurgersRun.jld2" model pars posterior
+# @save "docs/src/BurgersRun.jld2" model pars posterior
+# @load "docs/src/BurgersRun.jld2" model pars posterior
 
 
 print_equation(["∇U"], model, pars, posterior, cutoff_prob=0.5)
