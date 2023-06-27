@@ -121,7 +121,9 @@ function ∇Λ(A, Ψ, Φ)
   BD.dU_xx(A, ϕ, ψ_xx), BD.dUU_xx(A, ϕ, ψ, ψ_xx), BD.dU²U_xx(A, ϕ, ψ, ψ_xx), BD.dU³U_xx(A, ϕ, ψ, ψ_xx),
   BD.dU_xxx(A, ϕ, ψ_xxx), BD.dUU_xxx(A, ϕ, ψ, ψ_xxx), BD.dU²U_xxx(A, ϕ, ψ, ψ_xxx), BD.dU³U_xxx(A, ϕ, ψ, ψ_xxx)]
 
-end
+end 
+
+nothing # hide
 ```
 
 
@@ -131,17 +133,24 @@ To run the model we use the `DEtection()` function which returns the `model`, `p
 model, pars, posterior = DEtection(Z, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, beta, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
 ```
 
-```@example burgers
-pwd()
-```
 
-```@example burgers
-@load "./BurgersRun.jld2" model pars posterior; nothing # hide
+```@meta 
+# TODO: figure out how to source this file
+# @load "./BurgersRun.jld2" model pars posterior;
 ```
 
 We can then print the mean estimate along with the 95% highest posterior density (HPD) intervals.
 ```@example burgers
 print_equation(["uₜ"], model, pars, posterior, cutoff_prob=0.5)
+```
+
+```
+Equation
+ ├─── Mean:      ["∇U = - 0.994 u * u_x + 0.097 u_xx"]
+ ├─── Lower HPD: ["∇U = - 1.027 u * u_x + 0.092 u_xx"]
+ ├─── Upper HPD: ["∇U = - 0.963 u * u_x + 0.102 u_xx"]
+ ├─── Percentile: 0.95
+ └─── Inclusion Probability: 0.5
 ```
 
 We see the true equation
