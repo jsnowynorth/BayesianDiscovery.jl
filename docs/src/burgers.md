@@ -15,9 +15,8 @@ using FFTW
 using OrdinaryDiffEq
 using JLD2
 
-@load "https://github.com/jsnowynorth/BayesianDiscovery.jl/blob/main/docs/src/BurgersRun.jld2" model pars posterior
-
 ```
+
 
 
 Start by simulating and visualizing some data from the Burgers equation which is given by 
@@ -69,7 +68,6 @@ Random.seed!(1)
 Y = reshape(real.(U), 256, 101, 1)
 Z = Y + 0.02 * std(Y) .* rand(Normal(), 256, 101, 1)
 Plots.contourf(Time, x, Z[:,:,1], c=:oxy)
-pwd()
 ```
 
 The MCMC sampler function, `DEtection()`, takes a lot of parameters (TO DO: break apart the function call into smaller chuncks). See `?DEtection()` for the argument requirements. Additionally, we need to define the feature library and the derivative of the feature library (see [Feature Library](@ref)).
@@ -131,6 +129,14 @@ To run the model we use the `DEtection()` function which returns the `model`, `p
 
 ```
 model, pars, posterior = DEtection(Z, SpaceStep, TimeStep, νS, νT, batchSpace, batchTime, learning_rate, beta, Λ, ∇Λ, ΛSpaceNames, ΛTimeNames, nits = 1000, burnin = 500)
+```
+
+```@example burgers
+pwd()
+```
+
+```@example burgers
+@load "./BurgersRun.jld2" model pars posterior; nothing # hide
 ```
 
 We can then print the mean estimate along with the 95% highest posterior density (HPD) intervals.
