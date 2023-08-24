@@ -41,30 +41,30 @@ end
 
 ######################### visualize data #########################
 
-contourf(Time, x, Y[:, :, 1], clim=extrema(Y), framestyle=:box, c=:oxy)
-xlabel!("Time")
-ylabel!("Space")
+# contourf(Time, x, Y[:, :, 1], clim=extrema(Y), framestyle=:box, c=:oxy)
+# xlabel!("Time")
+# ylabel!("Space")
 
-savefig("/Users/JSNorth/Desktop/burgers_data.png")
+# savefig("/Users/JSNorth/Desktop/burgers_data.png")
 
 
-l = @layout [a{0.01w} grid(1, 2) c{0.07w}; b{0.02h}]
+# l = @layout [a{0.01w} grid(1, 2) c{0.07w}; b{0.02h}]
 
-pa = plot(ticks = false, framestyle=:none)
-annotate!(0.55, 0.5, Plots.text("Space", 20, rotation = 90))
+# pa = plot(ticks = false, framestyle=:none)
+# annotate!(0.55, 0.5, Plots.text("Space", 20, rotation = 90))
 
-p1 = contourf(Time, x, Y[:, :, 1], clim=extrema(Z), legend=false, xticks=false, framestyle=:box, c=:balance)
-p2 = contourf(Time, x, Z[:, :, 1], clim=extrema(Z), legend=false, ticks=false, framestyle=:box, c=:balance)
+# p1 = contourf(Time, x, Y[:, :, 1], clim=extrema(Z), legend=false, framestyle=:box, c=:balance)
+# p2 = contourf(Time, x, Z[:, :, 1], clim=extrema(Z), legend=false, yticks=false, framestyle=:box, c=:balance)
 
-pb = plot(ticks = false, framestyle=:none)
-annotate!(0.475, 0.6, Plots.text("Time", 20))
+# pb = plot(ticks = false, framestyle=:none)
+# annotate!(0.475, 0.6, Plots.text("Time", 20))
 
-leg = scatter([0, 0], [0, 0], zcolor=[0, 1], clims=extrema(Z), xlims=(0.9, 1.1), ylims=(0, 1), label="", framestyle=:none, c=:balance, xtickfontsize=18, ytickfontsize=18)
+# leg = scatter([0, 0], [0, 0], zcolor=[0, 1], clims=extrema(Z), xlims=(0.9, 1.1), ylims=(0, 1), label="", framestyle=:none, c=:balance, xtickfontsize=18, ytickfontsize=18)
 
-plot(pa, p1, p2,  leg, pb, layout=l, size=(1500, 750), tickfontsize = 15, margin = 2Plots.mm, title = ["" "a"  "b" "" ""],
-titlelocation = :left, titlefonthalign = :left, titlefontsize = 20)
+# plot(pa, p1, p2,  leg, pb, layout=l, size=(1500, 750), tickfontsize = 15, margin = 2Plots.mm, title = ["" "a"  "b" "" ""],
+# titlelocation = :left, titlefonthalign = :left, titlefontsize = 20)
 
-savefig("/Users/JSNorth/Desktop/burgers_data.png")
+# savefig("/Users/JSNorth/Desktop/burgers_data.png")
 
 ######################### PDEtection #########################
 
